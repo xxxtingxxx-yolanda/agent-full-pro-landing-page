@@ -5,8 +5,14 @@ import {defineConfig, loadEnv} from 'vite';
 
 export default defineConfig(({mode}) => {
   const env = loadEnv(mode, '.', '');
-  const configuredBase = env.VITE_BASE_PATH || (mode === 'production' ? '/agent-full-pro-landing-page/' : '/');
-  const base = configuredBase.endsWith('/') ? configuredBase : `${configuredBase}/`;
+  // Use relative base in production by default so GitHub Pages paths like /agent-pro/ won't break.
+  const configuredBase = env.VITE_BASE_PATH || (mode === 'production' ? './' : '/');
+  const base =
+    configuredBase === './' || configuredBase === ''
+      ? './'
+      : configuredBase.endsWith('/')
+        ? configuredBase
+        : `${configuredBase}/`;
 
   return {
     base,
