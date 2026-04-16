@@ -121,6 +121,11 @@
   .card-sheen:hover::after {
     opacity: 1;
   }
+
+  .section-rise-active {
+    animation: section-rise 0.82s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity, filter;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -129,7 +134,23 @@
   .interactive-cta,
   .interactive-cta::before,
   .chip-hover,
-  .card-sheen::after {
+  .card-sheen::after,
+  .section-rise-active {
     transition: none !important;
+    animation: none !important;
+  }
+}
+
+@keyframes section-rise {
+  from {
+    opacity: 0.36;
+    transform: translateY(78px) scale(0.985);
+    filter: blur(5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
   }
 }

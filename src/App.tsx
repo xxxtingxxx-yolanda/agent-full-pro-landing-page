@@ -58,6 +58,75 @@ const navLinkClass = "interactive-link text-apple-text-dim transition-colors dur
 const ctaBaseClass = "interactive-cta w-full md:w-auto text-sm font-semibold rounded-full transition-all text-center";
 
 export default function App() {
+  const [secondPageArriving, setSecondPageArriving] = React.useState(false);
+  const riseTimerRef = React.useRef<number | null>(null);
+
+  React.useEffect(() => {
+    return () => {
+      if (riseTimerRef.current !== null) {
+        window.clearTimeout(riseTimerRef.current);
+      }
+    };
+  }, []);
+
+  const handleDetailJump = React.useCallback((event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+
+    const section = document.getElementById("second-page");
+    if (!section) {
+      return;
+    }
+
+    const targetNode = document.getElementById("second-page-focus") ?? section;
+    const rect = targetNode.getBoundingClientRect();
+    const blockTop = window.scrollY + rect.top;
+    const targetTop = Math.max(0, blockTop + rect.height / 2 - window.innerHeight / 2);
+
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReducedMotion) {
+      window.scrollTo(0, targetTop);
+      window.history.replaceState(null, "", "#second-page");
+      return;
+    }
+
+    const startTop = window.scrollY;
+    const distance = targetTop - startTop;
+    const duration = 920;
+    const startTime = performance.now();
+    let hasTriggeredRise = false;
+
+    const step = (now: number) => {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased =
+        progress < 0.5
+          ? 4 * progress * progress * progress
+          : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+
+      window.scrollTo(0, startTop + distance * eased);
+
+      if (!hasTriggeredRise && progress > 0.5) {
+        hasTriggeredRise = true;
+        setSecondPageArriving(true);
+        if (riseTimerRef.current !== null) {
+          window.clearTimeout(riseTimerRef.current);
+        }
+        riseTimerRef.current = window.setTimeout(() => {
+          setSecondPageArriving(false);
+        }, 820);
+      }
+
+      if (progress < 1) {
+        window.requestAnimationFrame(step);
+        return;
+      }
+
+      window.history.replaceState(null, "", "#second-page");
+    };
+
+    window.requestAnimationFrame(step);
+  }, []);
+
   return (
     <div className="min-h-screen selection:bg-white selection:text-black">
       {/* Navigation */}
@@ -126,6 +195,7 @@ export default function App() {
                 </a>
                 <a
                   href="#second-page"
+                  onClick={handleDetailJump}
                   className={`${ctaBaseClass} px-16 py-5 bg-transparent border border-white/20 text-white hover:bg-white/5`}
                 >
                   查看详情
@@ -144,25 +214,27 @@ export default function App() {
           <div className="absolute bottom-10 right-10 font-mono text-[10px] text-purple-500/40 uppercase tracking-widest">Neural_Sync_Active</div>
         </div>
 
-        <h2 className="text-5xl md:text-7xl font-bold mb-32 text-center tracking-tight">
-          为什么 AI 仍无法完成完整交付？
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {[
-            { title: "碎片化执行", desc: "AI 可以编写代码片段，但缺乏将它们连接成生产级系统的结构化意识。", icon: <Zap className="text-white" /> },
-            { title: "上下文漂移", desc: "长任务导致上下文污染，使模型逐渐偏离最初的产品目标。", icon: <RefreshCw className="text-white" /> },
-            { title: "验证真空", desc: "缺乏闭环验证体系，AI 生成的内容是“尽力而为”而非“确保正确”。", icon: <ShieldCheck className="text-white" /> },
-          ].map((point, i) => (
-            <Card key={i} className="flex flex-col gap-8">
-              <div className="w-16 h-16 bg-white/5 rounded-2xl flex items-center justify-center transition-all duration-500 group-hover:scale-110 group-hover:bg-white/10">
-                {point.icon}
-              </div>
-              <h3 className="text-3xl font-bold tracking-tight">{point.title}</h3>
-              <p className="text-apple-text-dim text-lg leading-relaxed font-medium">
-                {point.desc}
-              </p>
-            </Card>
-          ))}
+        <div id="second-page-focus" className={secondPageArriving ? "section-rise-active" : ""}>
+          <h2 className="text-5xl md:text-7xl font-bold mb-32 text-center tracking-tight">
+            为什么 AI 仍无法完成完整交付？
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              { title: "碎片化执行", desc: "AI 可以编写代码片段，但缺乏将它们连接成生产级系统的结构化意识。", icon: <Zap className="text-white" /> },
+              { title: "上下文漂移", desc: "长任务导致上下文污染，使模型逐渐偏离最初的产品目标。", icon: <RefreshCw className="text-white" /> },
+              { title: "验证真空", desc: "缺乏闭环验证体系，AI 生成的内容是“尽力而为”而非“确保正确”。", icon: <ShieldCheck className="text-white" /> },
+            ].map((point, i) => (
+              <Card key={i} className="flex flex-col gap-8">
+                <div className="w-16 h-16 bg-white/5 rounded-2xl flex items-center justify-center transition-all duration-500 group-hover:scale-110 group-hover:bg-white/10">
+                  {point.icon}
+                </div>
+                <h3 className="text-3xl font-bold tracking-tight">{point.title}</h3>
+                <p className="text-apple-text-dim text-lg leading-relaxed font-medium">
+                  {point.desc}
+                </p>
+              </Card>
+            ))}
+          </div>
         </div>
       </Section>
 
