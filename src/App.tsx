@@ -56,6 +56,7 @@ const Badge = ({ children }: { children: React.ReactNode }) => (
 
 const navLinkClass = "interactive-link text-apple-text-dim transition-colors duration-300";
 const ctaBaseClass = "interactive-cta w-full md:w-auto text-sm font-semibold rounded-full transition-all text-center";
+const repoUrl = "https://github.com/xxxtingxxx-yolanda/agent-full-pro";
 
 export default function App() {
   const [secondPageArriving, setSecondPageArriving] = React.useState(false);
@@ -140,9 +141,14 @@ export default function App() {
             <motion.a href="#problem" whileHover={{ y: -2 }} className={navLinkClass}>核心问题</motion.a>
             <motion.a href="#architecture" whileHover={{ y: -2 }} className={navLinkClass}>系统架构</motion.a>
             <motion.a href="#protocol" whileHover={{ y: -2 }} className={navLinkClass}>交付协议</motion.a>
-            <button className="interactive-cta px-5 py-2 bg-white text-black rounded-full font-semibold hover:bg-gray-200 transition-all text-[11px] border border-transparent">
-              立即获取
-            </button>
+            <a
+              href={repoUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="interactive-cta px-5 py-2 bg-white text-black rounded-full font-semibold hover:bg-gray-200 transition-all text-[11px] border border-transparent"
+            >
+              获取 AGENTS
+            </a>
           </div>
         </div>
       </nav>
@@ -186,12 +192,12 @@ export default function App() {
 
               <div className="flex flex-col md:flex-row items-center justify-center gap-6">
                 <a
-                  href="https://github.com/xxxtingxxx-yolanda/agent-full-pro"
+                  href={repoUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={`${ctaBaseClass} px-16 py-5 bg-white text-black hover:bg-gray-200 border border-transparent`}
                 >
-                  下载 AGENTS
+                  获取 AGENTS 规则
                 </a>
                 <a
                   href="#second-page"
@@ -469,12 +475,12 @@ export default function App() {
             不是更强的模型，而是交付结构
           </p>
           <a 
-            href="https://github.com/xxxtingxxx-yolanda/agent-full-pro" 
+            href={repoUrl} 
             target="_blank" 
             rel="noopener noreferrer"
             className="interactive-cta inline-block px-24 py-6 bg-white text-black text-lg font-semibold rounded-full hover:bg-gray-200 transition-all shadow-2xl border border-transparent"
           >
-            在 GITHUB 查看
+            查看 GitHub 仓库
           </a>
         </motion.div>
       </Section>
