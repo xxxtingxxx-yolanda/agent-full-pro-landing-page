@@ -70,9 +70,7 @@ export default function App() {
     };
   }, []);
 
-  const handleDetailJump = React.useCallback((event: React.MouseEvent<HTMLAnchorElement>) => {
-    event.preventDefault();
-
+  const handleDetailJump = React.useCallback(() => {
     const section = document.getElementById("second-page");
     if (!section) {
       return;
@@ -86,7 +84,6 @@ export default function App() {
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReducedMotion) {
       window.scrollTo(0, targetTop);
-      window.history.replaceState(null, "", "#second-page");
       return;
     }
 
@@ -121,8 +118,6 @@ export default function App() {
         window.requestAnimationFrame(step);
         return;
       }
-
-      window.history.replaceState(null, "", "#second-page");
     };
 
     window.requestAnimationFrame(step);
@@ -199,13 +194,13 @@ export default function App() {
                 >
                   获取 AGENTS 规则
                 </a>
-                <a
-                  href="#second-page"
+                <button
+                  type="button"
                   onClick={handleDetailJump}
                   className={`${ctaBaseClass} px-16 py-5 bg-transparent border border-white/20 text-white hover:bg-white/5`}
                 >
                   查看详情
-                </a>
+                </button>
               </div>
             </div>
           </motion.div>

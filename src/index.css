@@ -163,6 +163,23 @@
     overflow: hidden;
   }
 
+  .card-sheen::before {
+    content: "";
+    position: absolute;
+    inset: -130% auto -130% -38%;
+    width: 28%;
+    background: linear-gradient(
+      110deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.35) 45%,
+      transparent 100%
+    );
+    transform: translateX(-300%) rotate(12deg);
+    transition: transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+    pointer-events: none;
+    z-index: 1;
+  }
+
   .card-sheen::after {
     content: "";
     position: absolute;
@@ -176,6 +193,10 @@
     opacity: 0;
     transition: opacity 0.35s ease;
     pointer-events: none;
+  }
+
+  .card-sheen:hover::before {
+    transform: translateX(430%) rotate(12deg);
   }
 
   .card-sheen:hover::after {
@@ -197,6 +218,7 @@
   .chip-hover::before,
   .interactive-panel,
   .interactive-panel::before,
+  .card-sheen::before,
   .card-sheen::after,
   .section-rise-active {
     transition: none !important;
