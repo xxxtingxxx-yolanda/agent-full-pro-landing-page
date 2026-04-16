@@ -5,8 +5,11 @@ import {defineConfig, loadEnv} from 'vite';
 
 export default defineConfig(({mode}) => {
   const env = loadEnv(mode, '.', '');
+  const configuredBase = env.VITE_BASE_PATH || (mode === 'production' ? '/agent-full-pro-landing-page/' : '/');
+  const base = configuredBase.endsWith('/') ? configuredBase : `${configuredBase}/`;
+
   return {
-    base: mode === 'production' ? '/agent-full-pro-landing-page/' : '/',
+    base,
     plugins: [react(), tailwindcss()],
     define: {
       'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),

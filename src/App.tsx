@@ -30,14 +30,17 @@ const Section = ({ children, className = "", id }: { children: React.ReactNode; 
   </section>
 );
 
-const Card = ({ children, className = "", key }: { children: React.ReactNode; className?: string; key?: any }) => (
+const Card: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className = "" }) => (
   <motion.div 
-    key={key}
     whileHover={{ 
-      y: -2,
+      y: -10,
+      scale: 1.01,
+      borderColor: "rgba(255, 255, 255, 0.24)",
+      boxShadow: "0 24px 64px rgba(0, 0, 0, 0.45)",
       backgroundColor: "rgba(255, 255, 255, 0.04)",
     }}
-    className={`bg-apple-gray/40 backdrop-blur-2xl border border-white/5 p-12 rounded-[28px] transition-all duration-500 relative group overflow-hidden ${className}`}
+    transition={{ type: "spring", stiffness: 260, damping: 22, mass: 0.9 }}
+    className={`card-sheen bg-apple-gray/40 backdrop-blur-2xl border border-white/5 p-12 rounded-[28px] transition-all duration-500 relative group overflow-hidden ${className}`}
   >
     <div className="relative z-10">
       {children}
@@ -51,6 +54,9 @@ const Badge = ({ children }: { children: React.ReactNode }) => (
   </span>
 );
 
+const navLinkClass = "interactive-link text-apple-text-dim transition-colors duration-300";
+const ctaBaseClass = "interactive-cta w-full md:w-auto text-sm font-semibold rounded-full transition-all text-center";
+
 export default function App() {
   return (
     <div className="min-h-screen selection:bg-white selection:text-black">
@@ -62,10 +68,10 @@ export default function App() {
             <span className="font-semibold tracking-tight text-xl">AGENT FULL PRO</span>
           </div>
           <div className="hidden md:flex items-center gap-10 text-xs font-medium tracking-wide">
-            <a href="#problem" className="text-apple-text-dim hover:text-white transition-colors">核心问题</a>
-            <a href="#architecture" className="text-apple-text-dim hover:text-white transition-colors">系统架构</a>
-            <a href="#protocol" className="text-apple-text-dim hover:text-white transition-colors">交付协议</a>
-            <button className="px-5 py-2 bg-white text-black rounded-full font-semibold hover:bg-gray-200 transition-all text-[11px]">
+            <motion.a href="#problem" whileHover={{ y: -2 }} className={navLinkClass}>核心问题</motion.a>
+            <motion.a href="#architecture" whileHover={{ y: -2 }} className={navLinkClass}>系统架构</motion.a>
+            <motion.a href="#protocol" whileHover={{ y: -2 }} className={navLinkClass}>交付协议</motion.a>
+            <button className="interactive-cta px-5 py-2 bg-white text-black rounded-full font-semibold hover:bg-gray-200 transition-all text-[11px] border border-transparent">
               立即获取
             </button>
           </div>
@@ -97,10 +103,15 @@ export default function App() {
                   { icon: <Layers className="w-5 h-5" />, text: "上下文坍塌" },
                   { icon: <ShieldCheck className="w-5 h-5" />, text: "零验证交付" },
                 ].map((item, i) => (
-                  <div key={i} className="flex items-center gap-3 text-apple-text-dim font-medium text-sm">
+                  <motion.div
+                    key={i}
+                    whileHover={{ y: -4, scale: 1.03 }}
+                    transition={{ type: "spring", stiffness: 250, damping: 20 }}
+                    className="chip-hover flex items-center gap-3 text-apple-text-dim font-medium text-sm border border-white/10 px-4 py-2 rounded-full"
+                  >
                     {item.icon}
                     {item.text}
-                  </div>
+                  </motion.div>
                 ))}
               </div>
 
@@ -109,13 +120,13 @@ export default function App() {
                   href="https://github.com/xxxtingxxx-yolanda/agent-full-pro"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full md:w-auto px-16 py-5 bg-white text-black text-sm font-semibold rounded-full hover:bg-gray-200 transition-all text-center"
+                  className={`${ctaBaseClass} px-16 py-5 bg-white text-black hover:bg-gray-200 border border-transparent`}
                 >
                   下载 AGENTS
                 </a>
                 <a
                   href="#second-page"
-                  className="w-full md:w-auto px-16 py-5 bg-transparent border border-white/20 text-white text-sm font-semibold rounded-full hover:bg-white/5 transition-all text-center"
+                  className={`${ctaBaseClass} px-16 py-5 bg-transparent border border-white/20 text-white hover:bg-white/5`}
                 >
                   查看详情
                 </a>
@@ -143,7 +154,7 @@ export default function App() {
             { title: "验证真空", desc: "缺乏闭环验证体系，AI 生成的内容是“尽力而为”而非“确保正确”。", icon: <ShieldCheck className="text-white" /> },
           ].map((point, i) => (
             <Card key={i} className="flex flex-col gap-8">
-              <div className="w-16 h-16 bg-white/5 rounded-2xl flex items-center justify-center">
+              <div className="w-16 h-16 bg-white/5 rounded-2xl flex items-center justify-center transition-all duration-500 group-hover:scale-110 group-hover:bg-white/10">
                 {point.icon}
               </div>
               <h3 className="text-3xl font-bold tracking-tight">{point.title}</h3>
@@ -200,7 +211,7 @@ export default function App() {
           不是能力问题，而是控制结构问题
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {[
+          {[ 
             { title: "1. 缺乏阶段划分", desc: ["模糊的开始与结束标准", "任务边界不清晰导致执行漂移"], icon: <Layers className="text-white" /> },
             { title: "2. 缺乏状态管理", desc: ["过程数据在对话流中丢失", "发生错误后无法精准回溯"], icon: <Database className="text-white" /> },
             { title: "3. 缺乏上下文治理", desc: ["信息过载导致注意力分散", "核心指令被冗余代码淹没"], icon: <Zap className="text-white" /> },
@@ -208,7 +219,7 @@ export default function App() {
           ].map((item, i) => (
             <Card key={i} className="flex flex-col gap-8">
               <div className="flex items-center gap-6">
-                <div className="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center">
+                <div className="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center transition-all duration-500 group-hover:scale-110 group-hover:bg-white/10">
                   {item.icon}
                 </div>
                 <h3 className="text-3xl font-bold tracking-tight">{item.title}</h3>
@@ -240,7 +251,7 @@ export default function App() {
           ].map((item, i) => (
             <Card key={i} className="flex flex-col gap-8">
               <div className="flex items-center gap-6">
-                <div className="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center">
+                <div className="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center transition-all duration-500 group-hover:scale-110 group-hover:bg-white/10">
                   {item.icon}
                 </div>
                 <h3 className="text-3xl font-bold tracking-tight">{item.title}</h3>
@@ -312,7 +323,7 @@ export default function App() {
                 <ArrowRight className="rotate-90 mt-8 text-white/20 w-8 h-8" />
               </div>
 
-              {[
+              {[ 
                 "多 AGENT 生成 PRD",
                 "自动化代码实现",
                 "MCP 验证循环",
@@ -323,12 +334,17 @@ export default function App() {
                   key={i}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
+                  whileHover={{ y: -4 }}
                   className="relative z-10 flex flex-col items-center"
                 >
-                  <div className="bg-apple-gray/60 backdrop-blur-3xl border border-white/10 px-12 py-6 rounded-3xl text-white font-semibold text-xl flex items-center gap-6 hover:border-white/30 transition-all duration-500">
+                  <motion.div
+                    whileHover={{ scale: 1.02, borderColor: "rgba(255, 255, 255, 0.34)", boxShadow: "0 18px 38px rgba(0, 0, 0, 0.34)" }}
+                    transition={{ type: "spring", stiffness: 240, damping: 20 }}
+                    className="bg-apple-gray/60 backdrop-blur-3xl border border-white/10 px-12 py-6 rounded-3xl text-white font-semibold text-xl flex items-center gap-6 transition-all duration-500"
+                  >
                     <CheckCircle2 className="w-6 h-6 text-white" />
                     {step}
-                  </div>
+                  </motion.div>
                   {i < 4 && <ArrowRight className="rotate-90 mt-8 text-white/20 w-8 h-8" />}
                 </motion.div>
               ))}
@@ -344,16 +360,16 @@ export default function App() {
       <Section className="bg-apple-gray/30 border border-white/5 rounded-[48px] mx-6">
         <h2 className="text-5xl font-bold mb-24 text-center tracking-tight">系统验证结果</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-16 text-center">
-          {[
+          {[ 
             { val: "8/8", label: "阶段完成" },
             { val: "16/16", label: "测试通过" },
             { val: "100%", label: "MCP 验证" },
             { val: "99/100", label: "系统评分" },
           ].map((stat, i) => (
-            <div key={i}>
+            <motion.div key={i} whileHover={{ y: -6, scale: 1.03 }} transition={{ type: "spring", stiffness: 230, damping: 18 }}>
               <p className="text-5xl md:text-6xl font-bold text-white mb-4 tracking-tighter">{stat.val}</p>
               <p className="text-apple-text-dim font-semibold text-sm tracking-widest uppercase">{stat.label}</p>
-            </div>
+            </motion.div>
           ))}
         </div>
         <div className="mt-24 flex justify-center">
@@ -384,7 +400,7 @@ export default function App() {
             href="https://github.com/xxxtingxxx-yolanda/agent-full-pro" 
             target="_blank" 
             rel="noopener noreferrer"
-            className="inline-block px-24 py-6 bg-white text-black text-lg font-semibold rounded-full hover:bg-gray-200 transition-all shadow-2xl"
+            className="interactive-cta inline-block px-24 py-6 bg-white text-black text-lg font-semibold rounded-full hover:bg-gray-200 transition-all shadow-2xl border border-transparent"
           >
             在 GITHUB 查看
           </a>
@@ -398,11 +414,11 @@ export default function App() {
             <p className="text-gray-600 uppercase tracking-[0.5em]">AUTHOR_INFO</p>
             <div className="flex items-center gap-4">
               <span className="text-gray-500">XHS:</span>
-              <a href="https://xhslink.com/m/6B94W4wQIWf" target="_blank" rel="noopener noreferrer" className="text-white hover:underline">xhslink.com/m/6B94W4wQIWf</a>
+              <a href="https://xhslink.com/m/6B94W4wQIWf" target="_blank" rel="noopener noreferrer" className="interactive-link text-white">xhslink.com/m/6B94W4wQIWf</a>
             </div>
             <div className="flex items-center gap-4">
               <span className="text-gray-500">EMAIL:</span>
-              <a href="mailto:leiyuting09@163.com" className="text-white hover:underline">leiyuting09@163.com</a>
+              <a href="mailto:leiyuting09@163.com" className="interactive-link text-white">leiyuting09@163.com</a>
             </div>
           </div>
           <div className="text-right hidden md:block space-y-2">
