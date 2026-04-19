@@ -57,12 +57,31 @@ const Badge = ({ children }: { children: React.ReactNode }) => (
 const navLinkClass = "interactive-link text-apple-text-dim transition-colors duration-300";
 const ctaBaseClass = "interactive-cta w-full md:w-auto text-sm font-semibold rounded-full transition-all text-center";
 const repoUrl = "https://github.com/xxxtingxxx-yolanda/agent-full-pro";
+const demoVideos = [
+  {
+    id: "earth-online",
+    title: "earth online",
+    src: `${import.meta.env.BASE_URL}videos/earth-online.mp4`,
+    href: "",
+  },
+  {
+    id: "world-wisdom",
+    title: "world wisdom",
+    src: `${import.meta.env.BASE_URL}videos/world-wisdom.mp4`,
+    href: "http://xhslink.com/o/Q32TMN6l4t",
+  },
+];
 
 export default function App() {
   const [secondPageArriving, setSecondPageArriving] = React.useState(false);
   const riseTimerRef = React.useRef<number | null>(null);
   const detailsSectionId = "details";
   const detailsFocusId = "details-focus";
+  const handleDemoClick = (event: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (!href) {
+      event.preventDefault();
+    }
+  };
 
   React.useEffect(() => {
     if (window.location.hash) {
@@ -492,15 +511,29 @@ export default function App() {
 
             <div className="w-full h-full flex flex-col items-center justify-center">
               <div className="w-full max-w-[620px] grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
-                {[1, 2].map((item) => (
+                {demoVideos.map((demo, index) => (
                   <a
-                    key={item}
-                    href="#"
+                    key={demo.id}
+                    href={demo.href || "#"}
+                    onClick={(event) => handleDemoClick(event, demo.href)}
+                    target={demo.href ? "_blank" : undefined}
+                    rel={demo.href ? "noopener noreferrer" : undefined}
                     className="group block rounded-[30px] border border-dashed border-blue-200/35 bg-black/35 p-4 transition-all duration-300 hover:border-blue-200/60 hover:bg-black/45"
                   >
-                    <div className="aspect-[9/20] rounded-[24px] border border-white/20 bg-gradient-to-b from-[#13161d] via-[#0d0f15] to-[#07080c] flex flex-col items-center justify-center text-center px-4">
-                      <p className="text-white/90 text-sm font-semibold tracking-[0.16em] uppercase mb-2">演示 {item}</p>
-                      <p className="text-apple-text-dim text-[15px] font-medium leading-relaxed">手机录屏占位图</p>
+                    <div className="aspect-[9/20] rounded-[24px] border border-white/20 overflow-hidden bg-gradient-to-b from-[#13161d] via-[#0d0f15] to-[#07080c]">
+                      <video
+                        className="w-full h-full object-cover"
+                        src={demo.src}
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        preload="metadata"
+                      />
+                    </div>
+                    <div className="text-center pt-3">
+                      <p className="text-white/85 text-sm font-semibold tracking-[0.16em] uppercase">演示 {index + 1}</p>
+                      <p className="text-apple-text-dim text-[12px] font-medium tracking-[0.12em] uppercase mt-1">{demo.title}</p>
                     </div>
                   </a>
                 ))}
