@@ -62,7 +62,7 @@ const demoVideos = [
     id: "earth-online",
     title: "何盒子",
     src: `${import.meta.env.BASE_URL}videos/earth-online.mp4`,
-    href: "",
+    href: "http://xhslink.com/o/9iZhrbe7BMl",
   },
   {
     id: "world-wisdom",
