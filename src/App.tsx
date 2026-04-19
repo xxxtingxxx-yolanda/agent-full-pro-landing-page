@@ -462,7 +462,60 @@ export default function App() {
         </div>
       </Section>
 
-      {/* 9. Philosophical Closing */}
+      {/* 9. Product Demo */}
+      <Section className="pt-40 pb-40">
+        <div className="bg-apple-gray/30 border border-white/10 rounded-[42px] px-8 py-12 md:px-14 md:py-16 backdrop-blur-2xl">
+          <div className="grid grid-cols-1 xl:grid-cols-[1.2fr_0.8fr] gap-16 xl:gap-12 items-start">
+            <div className="max-w-3xl">
+              <p className="text-white/60 font-semibold tracking-[0.32em] text-[10px] uppercase mb-6">
+                Landed Demo / Product Validation
+              </p>
+              <h2 className="text-4xl md:text-6xl font-bold tracking-tight leading-tight mb-8">
+                目前已有产品验证
+                <br />
+                开发仅花 1 天完成
+              </h2>
+              <p className="text-apple-text-dim text-lg md:text-xl font-medium leading-relaxed mb-10">
+                核心流程已经跑通到可用版本，功能链路、交互体验与交付节奏都完成了实测闭环。
+              </p>
+              <ul className="space-y-4 text-apple-text-dim text-lg font-medium">
+                <li className="flex items-start gap-3">
+                  <span className="mt-2.5 w-1.5 h-1.5 bg-white/50 rounded-full shrink-0" />
+                  第一轮产品验证已落地，可直接演示核心能力
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="mt-2.5 w-1.5 h-1.5 bg-white/50 rounded-full shrink-0" />
+                  开发与联调周期控制在一天内，具备快速迭代基础
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="mt-2.5 w-1.5 h-1.5 bg-white/50 rounded-full shrink-0" />
+                  后续只需替换真实录屏，即可用于对外展示
+                </li>
+              </ul>
+            </div>
+
+            <div className="w-full">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                {[1, 2].map((item) => (
+                  <a
+                    key={item}
+                    href="#"
+                    className="group block rounded-[30px] border border-dashed border-blue-200/35 bg-black/35 p-3 transition-all duration-300 hover:border-blue-200/60 hover:bg-black/45"
+                  >
+                    <div className="aspect-[9/19.5] rounded-[22px] border border-white/20 bg-gradient-to-b from-[#13161d] via-[#0d0f15] to-[#07080c] flex flex-col items-center justify-center text-center px-4">
+                      <p className="text-white/90 text-xs font-semibold tracking-[0.2em] uppercase mb-2">Demo {item}</p>
+                      <p className="text-apple-text-dim text-sm font-medium leading-relaxed">手机录屏占位图</p>
+                    </div>
+                  </a>
+                ))}
+              </div>
+              <p className="text-center mt-5 text-[11px] tracking-[0.16em] uppercase text-white/45">点击可查看详情</p>
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      {/* 10. Philosophical Closing */}
       <Section className="text-center py-64 relative overflow-hidden">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
