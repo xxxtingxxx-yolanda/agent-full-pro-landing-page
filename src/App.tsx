@@ -518,9 +518,9 @@ export default function App() {
                     onClick={(event) => handleDemoClick(event, demo.href)}
                     target={demo.href ? "_blank" : undefined}
                     rel={demo.href ? "noopener noreferrer" : undefined}
-                    className="group block rounded-[30px] border border-dashed border-blue-200/35 bg-black/35 p-4 transition-all duration-300 hover:border-blue-200/60 hover:bg-black/45"
+                    className="group block rounded-[30px] border border-dashed border-blue-200/35 bg-black/35 overflow-hidden transition-all duration-300 hover:border-blue-200/60 hover:bg-black/45"
                   >
-                    <div className="aspect-[9/20] rounded-[24px] border border-white/20 overflow-hidden bg-gradient-to-b from-[#13161d] via-[#0d0f15] to-[#07080c]">
+                    <div className="aspect-[9/20] rounded-[30px] border border-white/20 overflow-hidden bg-gradient-to-b from-[#13161d] via-[#0d0f15] to-[#07080c]">
                       <video
                         className="w-full h-full object-cover"
                         src={demo.src}
@@ -530,10 +530,6 @@ export default function App() {
                         playsInline
                         preload="metadata"
                       />
-                    </div>
-                    <div className="text-center pt-3">
-                      <p className="text-white/85 text-sm font-semibold tracking-[0.16em]">{demo.title}</p>
-                      <p className="text-apple-text-dim text-[12px] font-medium tracking-[0.12em] mt-1">{demo.title}</p>
                     </div>
                   </a>
                 ))}
