@@ -60,13 +60,13 @@ const repoUrl = "https://github.com/xxxtingxxx-yolanda/agent-full-pro";
 const demoVideos = [
   {
     id: "earth-online",
-    title: "earth online",
+    title: "何盒子",
     src: `${import.meta.env.BASE_URL}videos/earth-online.mp4`,
     href: "",
   },
   {
     id: "world-wisdom",
-    title: "world wisdom",
+    title: "礼小记",
     src: `${import.meta.env.BASE_URL}videos/world-wisdom.mp4`,
     href: "http://xhslink.com/o/Q32TMN6l4t",
   },
@@ -511,7 +511,7 @@ export default function App() {
 
             <div className="w-full h-full flex flex-col items-center justify-center">
               <div className="w-full max-w-[620px] grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
-                {demoVideos.map((demo, index) => (
+                {demoVideos.map((demo) => (
                   <a
                     key={demo.id}
                     href={demo.href || "#"}
@@ -532,8 +532,8 @@ export default function App() {
                       />
                     </div>
                     <div className="text-center pt-3">
-                      <p className="text-white/85 text-sm font-semibold tracking-[0.16em] uppercase">演示 {index + 1}</p>
-                      <p className="text-apple-text-dim text-[12px] font-medium tracking-[0.12em] uppercase mt-1">{demo.title}</p>
+                      <p className="text-white/85 text-sm font-semibold tracking-[0.16em]">{demo.title}</p>
+                      <p className="text-apple-text-dim text-[12px] font-medium tracking-[0.12em] mt-1">{demo.title}</p>
                     </div>
                   </a>
                 ))}
